@@ -3,21 +3,22 @@ import { useLoaderData } from "react-router-dom";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { getStoredReadList } from "../../utility/addToDb";
+import Book from "./Book";
 
 const ListedBooks = () => {
   const [readList, setReadList] = useState([]);
   const allBooks = useLoaderData();
 
-  // useEffect(() => {
-  //   const storedReadList = getStoredReadList();
-  //   const storedReadListInt = storedReadList.map((id) => parseInt(id));
+  useEffect(() => {
+    const storedReadList = getStoredReadList();
+    const storedReadListInt = storedReadList.map((id) => parseInt(id));
 
-  //   const readBookList = allBooks.filter((book) =>
-  //     storedReadListInt.includes(book.bookId)
-  //   );
+    const readBookList = allBooks.filter((book) =>
+      storedReadListInt.includes(book.bookId)
+    );
 
-  //   setReadList(readBookList);
-  // }, []);
+    setReadList(readBookList);
+  }, []);
 
   return (
     <div>
@@ -33,6 +34,11 @@ const ListedBooks = () => {
           <h2 className="text-2xl font-semibold">
             Books I read {readList.length}
           </h2>
+          <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
+           {
+            readList.map(book => <Book key={book.bookId} book={book}></Book>)
+           }
+          </div>
         </TabPanel>
         <TabPanel>
           <h2 className="text-2xl font-semibold">My wish List</h2>
